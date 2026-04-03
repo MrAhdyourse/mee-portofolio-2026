@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --color-surface: oklch(0.985 0.008 95);
+  --color-surface-dark: oklch(0.18 0.03 260);
+  --color-ink: oklch(0.28 0.04 260);
+  --color-ink-muted: oklch(0.48 0.03 260);
+  --color-accent: oklch(0.62 0.17 195);
+  --color-accent-hover: oklch(0.52 0.15 195);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  font-family: var(--font-sans);
+}

@@ -1,0 +1,62 @@
+---
+import type { Project } from '../data/projects';
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const tagSlugs = project.tags
+  .map((t) => t.toLowerCase().replace(/\s+/g, '-'))
+  .join(' ');
+---
+
+<article
+  class="project-card flex flex-col rounded-2xl border border-slate-200/90 bg-white/90 p-6 shadow-sm ring-1 ring-slate-950/5 transition hover:-translate-y-0.5 hover:border-teal-500/40 hover:shadow-lg hover:ring-teal-500/10 dark:border-slate-700/90 dark:bg-slate-900/60 dark:ring-white/5 dark:hover:border-teal-400/35"
+  data-tags={tagSlugs}
+  role="listitem"
+>
+  <h3 class="text-lg font-semibold tracking-tight text-slate-900 dark:text-slate-50">
+    {project.title}
+  </h3>
+  <p class="mt-2 flex-1 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+    {project.description}
+  </p>
+  <ul class="mt-4 flex flex-wrap gap-2" aria-label="Tag teknologi">
+    {
+      project.tags.map((tag) => (
+        <li>
+          <span class="rounded-full bg-teal-500/10 px-2.5 py-0.5 text-xs font-medium text-teal-800 dark:bg-teal-400/10 dark:text-teal-200">
+            {tag}
+          </span>
+        </li>
+      ))
+    }
+  </ul>
+  <div class="mt-5 flex flex-wrap gap-3">
+    {
+      project.href && project.href !== '#' && (
+        <a
+          class="text-sm font-medium text-teal-600 underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 dark:text-teal-400 dark:focus-visible:ring-offset-slate-900"
+          href={project.href}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Lihat demo
+        </a>
+      )
+    }
+    {
+      project.repo && (
+        <a
+          class="text-sm font-medium text-slate-700 underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 dark:text-slate-300 dark:focus-visible:ring-offset-slate-900"
+          href={project.repo}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Kode di GitHub
+        </a>
+      )
+    }
+  </div>
+</article>
