@@ -1,0 +1,53 @@
+---
+import Layout from '../layouts/Layout.astro';
+import {
+  contactContent,
+  contactMeta,
+  type ContactLink,
+} from '../config/pages/contact';
+
+const ring =
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950';
+
+function linkClass(link: ContactLink): string {
+  const base = `inline-flex items-center justify-center rounded-xl px-5 py-3 text-sm font-semibold transition ${ring}`;
+  if (link.variant === 'primary')
+    return `${base} bg-teal-600 text-white hover:bg-teal-700 dark:bg-teal-500 dark:text-slate-950 dark:hover:bg-teal-400`;
+  if (link.variant === 'secondary')
+    return `${base} border border-slate-300 bg-white text-slate-800 hover:border-slate-400 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:hover:border-slate-500`;
+  return `${base} border border-transparent text-teal-700 underline-offset-4 hover:underline dark:text-teal-300`;
+}
+---
+
+<Layout title={contactMeta.title} description={contactMeta.description} socialImage={contactMeta.socialImage} active="contact">
+  <main id="main" class="mx-auto max-w-5xl px-4 py-14 sm:px-6 sm:py-20">
+    <header class="max-w-2xl">
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-teal-700 dark:text-teal-400">
+        Kolaborasi
+      </p>
+      <h1 class="font-display mt-3 text-4xl font-normal tracking-tight text-slate-900 sm:text-5xl dark:text-slate-50">
+        {contactContent.section.title}
+      </h1>
+      <p class="mt-4 max-w-xl text-lg leading-relaxed text-slate-600 dark:text-slate-400">
+        {contactContent.section.lead}
+      </p>
+    </header>
+
+    <ul class="mt-12 flex max-w-lg flex-col gap-3" role="list">
+      {
+        contactContent.links.map((link) => (
+          <li>
+            <a
+              class={`${linkClass(link)} w-full sm:w-auto`}
+              href={link.href}
+              target={link.external ? '_blank' : undefined}
+              rel={link.external ? 'noopener noreferrer' : undefined}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </main>
+</Layout>

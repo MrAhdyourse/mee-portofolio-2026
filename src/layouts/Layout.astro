@@ -1,39 +1,42 @@
 ---
 import '../styles/global.css';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { site } from '../config/site';
+import type { NavId } from '../config/types';
+import { assetUrl, baseUrl } from '../lib/urls';
 
 interface Props {
   title?: string;
   description?: string;
-  /** Nama file di folder `public` (contoh: `og-banner.svg`). */
   socialImage?: string;
+  active: NavId;
 }
 
 const {
-  title = 'Portofolio | MrAhdyourse',
+  title = `Portofolio | ${site.person.name}`,
   description =
-    'Portofolio web statis: proyek teknologi, ringkas dan responsif — dibangun dengan Astro & Tailwind.',
+    'Portofolio web statis — cepat, responsif, dan siap Anda isi dengan karya terbaik.',
   socialImage = 'og-banner.svg',
+  active,
 } = Astro.props;
 
-/** Pastikan ada `/` di akhir agar gabungan `base` + file di `public` tidak menyatu (mis. ...2026favicon.svg). */
-const base = import.meta.env.BASE_URL.endsWith('/')
-  ? import.meta.env.BASE_URL
-  : `${import.meta.env.BASE_URL}/`;
-const site = Astro.site;
-
-/** Untuk project site di subpath, kanonis memakai `base`. */
-const canonical = site != null ? new URL(base, site) : Astro.url;
+const base = baseUrl();
+const canonical =
+  Astro.site != null
+    ? new URL(Astro.url.pathname, Astro.site).href
+    : Astro.url.href;
 
 const pathToSocial = `${base}${socialImage}`;
 const absoluteSocial =
-  site != null ? new URL(pathToSocial, site).href : pathToSocial;
+  Astro.site != null ? new URL(pathToSocial, Astro.site).href : pathToSocial;
 
 const personJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Person',
-  name: 'MrAhdyourse',
-  url: canonical.href,
-  sameAs: ['https://github.com/MrAhdyourse'],
+  name: site.person.name,
+  url: canonical,
+  sameAs: site.person.jsonLdSameAs,
 };
 
 const focusRing =
@@ -49,24 +52,24 @@ const focusRing =
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#fafaf9" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
-    <link rel="canonical" href={canonical.href} />
-    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href={assetUrl('favicon.svg')} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Serif+Display:ital@0;1&display=swap"
       rel="stylesheet"
     />
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonical.href} />
+    <meta property="og:url" content={canonical} />
     <meta property="og:locale" content="id_ID" />
     <meta property="og:image" content={absoluteSocial} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Pratinjau portofolio MrAhdyourse" />
+    <meta property="og:image:alt" content={site.profile.imageAlt} />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
@@ -115,7 +118,7 @@ const focusRing =
     </script>
   </head>
   <body
-    class="min-h-dvh bg-gradient-to-b from-stone-50 via-white to-stone-50 text-slate-800 dark:from-slate-950 dark:via-slate-950 dark:to-slate-900 dark:text-slate-100"
+    class="min-h-dvh mesh-bg text-slate-800 dark:text-slate-100"
   >
     <a
       href="#main"
@@ -123,68 +126,8 @@ const focusRing =
     >
       Lewati ke konten
     </a>
-    <header
-      class="sticky top-0 z-40 border-b border-slate-200/70 bg-white/75 backdrop-blur-md dark:border-slate-800/80 dark:bg-slate-950/75"
-    >
-      <div
-        class="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-3 sm:px-6"
-      >
-        <a
-          href={base}
-          class={`font-semibold tracking-tight text-slate-900 dark:text-slate-50 ${focusRing}`}
-        >
-          MrAhdyourse
-        </a>
-        <nav class="flex items-center gap-1 sm:gap-3" aria-label="Utama">
-          <a
-            class={`rounded-lg px-2 py-1.5 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-50 sm:px-3 ${focusRing}`}
-            href="#tentang"
-          >
-            Tentang
-          </a>
-          <a
-            class={`rounded-lg px-2 py-1.5 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-50 sm:px-3 ${focusRing}`}
-            href="#proyek"
-          >
-            Proyek
-          </a>
-          <a
-            class={`rounded-lg px-2 py-1.5 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-50 sm:px-3 ${focusRing}`}
-            href="#kontak"
-          >
-            Kontak
-          </a>
-          <button
-            type="button"
-            data-theme-toggle
-            class={`ml-1 inline-flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800 ${focusRing}`}
-            aria-pressed="false"
-          >
-            <span class="hidden dark:inline" aria-hidden="true">☀️</span>
-            <span class="inline dark:hidden" aria-hidden="true">🌙</span>
-          </button>
-        </nav>
-      </div>
-    </header>
+    <SiteHeader active={active} />
     <slot />
-    <footer class="mt-20 border-t border-slate-200/80 py-10 dark:border-slate-800/80">
-      <div
-        class="mx-auto flex max-w-5xl flex-col gap-4 px-4 text-sm text-slate-600 sm:flex-row sm:items-center sm:justify-between sm:px-6 dark:text-slate-400"
-      >
-        <p>
-          © {new Date().getFullYear()} — dibangun dengan Astro & Tailwind.
-        </p>
-        <p class="text-slate-500 dark:text-slate-500">
-          <a
-            class={`font-medium text-teal-600 hover:underline dark:text-teal-400 ${focusRing}`}
-            href="https://github.com/MrAhdyourse/mee-portofolio-2026"
-            target="_blank"
-            rel="noopener noreferrer me"
-          >
-            GitHub
-          </a>
-        </p>
-      </div>
-    </footer>
+    <SiteFooter />
   </body>
 </html>

@@ -1,0 +1,31 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { pageUrl } from '../lib/urls';
+
+const ring =
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950';
+---
+
+<Layout
+  title="Halaman tidak ditemukan | Portofolio"
+  description="Tautan mungkin rusak atau halaman sudah dipindahkan."
+  active="home"
+>
+  <main id="main" class="mx-auto max-w-lg px-4 py-24 text-center sm:px-6 sm:py-32">
+    <p class="text-8xl font-light text-teal-600/90 dark:text-teal-400/90" aria-hidden="true">
+      404
+    </p>
+    <h1 class="mt-4 font-display text-2xl text-slate-900 dark:text-slate-50">
+      Halaman tidak ditemukan
+    </h1>
+    <p class="mt-3 text-slate-600 dark:text-slate-400">
+      Periksa URL atau kembali ke beranda.
+    </p>
+    <a
+      href={pageUrl('')}
+      class={`mt-8 inline-flex rounded-xl bg-teal-600 px-6 py-3 text-sm font-semibold text-white hover:bg-teal-700 dark:bg-teal-500 dark:text-slate-950 dark:hover:bg-teal-400 ${ring}`}
+    >
+      Ke beranda
+    </a>
+  </main>
+</Layout>

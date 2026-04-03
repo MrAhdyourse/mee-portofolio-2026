@@ -1,0 +1,64 @@
+---
+import type { NavId } from '../config/types';
+import { site } from '../config/site';
+import { pageUrl } from '../lib/urls';
+
+interface Props {
+  active: NavId;
+}
+
+const { active } = Astro.props;
+
+const focusRing =
+  'rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950';
+
+const navItemClass = (isActive: boolean) =>
+  [
+    'rounded-lg px-2 py-1.5 text-sm font-medium sm:px-3',
+    focusRing,
+    isActive
+      ? 'bg-teal-500/15 text-teal-800 dark:bg-teal-400/10 dark:text-teal-200'
+      : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-50',
+  ].join(' ');
+---
+
+<header
+  class="sticky top-0 z-40 border-b border-slate-200/70 bg-white/80 backdrop-blur-md dark:border-slate-800/80 dark:bg-slate-950/80"
+>
+  <div
+    class="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-3 sm:px-6"
+  >
+    <div class="min-w-0">
+      <a
+        href={pageUrl('')}
+        class={`block truncate font-semibold tracking-tight text-slate-900 dark:text-slate-50 ${focusRing}`}
+      >
+        {site.brand.name}
+      </a>
+      <p class="truncate text-xs text-slate-500 dark:text-slate-500">
+        {site.brand.shortTagline}
+      </p>
+    </div>
+    <nav class="flex shrink-0 items-center gap-0.5 sm:gap-2" aria-label="Utama">
+      {
+        site.nav.map((item) => {
+          const href = pageUrl(item.segment);
+          return (
+            <a class={navItemClass(active === item.id)} href={href}>
+              {item.label}
+            </a>
+          );
+        })
+      }
+      <button
+        type="button"
+        data-theme-toggle
+        class={`ml-1 inline-flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800 ${focusRing}`}
+        aria-pressed="false"
+      >
+        <span class="hidden dark:inline" aria-hidden="true">☀️</span>
+        <span class="inline dark:hidden" aria-hidden="true">🌙</span>
+      </button>
+    </nav>
+  </div>
+</header>

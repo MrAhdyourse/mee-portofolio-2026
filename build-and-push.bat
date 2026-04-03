@@ -18,6 +18,10 @@ REM Optional: set DEPLOY_EMPTY=1 before running to force an empty commit (trigge
 set "ALLOW_EMPTY=0"
 if /i "%DEPLOY_EMPTY%"=="1" set "ALLOW_EMPTY=1"
 
+REM Opsi cepat (pesan otomatis seperti dulu): --auto-msg  atau  set AUTO_COMMIT_MSG=1
+set "USE_AUTO_MSG=0"
+if /i "%AUTO_COMMIT_MSG%"=="1" set "USE_AUTO_MSG=1"
+
 set "COMMIT_MSG="
 :argloop
 if "%~1"=="" goto argdone
@@ -26,17 +30,16 @@ if /i "%~1"=="--empty" (
   shift
   goto argloop
 )
+if /i "%~1"=="--auto-msg" (
+  set "USE_AUTO_MSG=1"
+  shift
+  goto argloop
+)
 set "COMMIT_MSG=%~1"
 shift
 goto argloop
 :argdone
-if not defined COMMIT_MSG (
-  if "%ALLOW_EMPTY%"=="1" (
-    set "COMMIT_MSG=chore: trigger GitHub Pages deploy"
-  ) else (
-    set "COMMIT_MSG=chore: update site"
-  )
-)
+REM Pesan commit: dari argumen di atas, atau nanti ditanya di langkah 4 (kecuali --auto-msg).
 
 echo.
 echo === 1/4: npm ci (clean install; node_modules stays local, never committed) ===
@@ -97,6 +100,9 @@ echo   - Ubah file di src lalu jalankan skrip ini lagi, ATAU
 echo   - Paksa commit kosong untuk memicu GitHub Actions:
 echo       build-and-push.bat --empty
 echo     atau sebelum jalan:  set DEPLOY_EMPTY=1
+echo   - Pesan commit: ditanya otomatis di langkah 4, atau sekali jalan:
+echo       build-and-push.bat "feat: teks dari Anda"
+echo     kalau mau pesan generik lagi:  --auto-msg
 echo ============================================================
 set "RC=0"
 goto FINISH
@@ -104,6 +110,17 @@ goto FINISH
 :HAVE_STAGED_CHANGES
 echo.
 echo === 4/4: commit ^& push origin main ===
+if /i "%USE_AUTO_MSG%"=="1" if "%COMMIT_MSG%"=="" set "COMMIT_MSG=chore: update site"
+if "%COMMIT_MSG%"=="" (
+  echo.
+  echo Pesan commit ini yang tampil di riwayat GitHub ^(tulis sendiri, jelas singkat^).
+  set /p "COMMIT_MSG=Tulis pesan commit: "
+)
+if "%COMMIT_MSG%"=="" (
+  echo [ERROR] Pesan commit kosong. Ulangi skrip atau pakai: build-and-push.bat "pesan Anda"
+  set "RC=1"
+  goto FINISH
+)
 call git commit -m "%COMMIT_MSG%"
 if errorlevel 1 (
   echo [ERROR] git commit failed.
@@ -115,6 +132,12 @@ goto GIT_PUSH
 :DO_EMPTY_COMMIT
 echo.
 echo === 4/4: commit kosong ^(trigger deploy^) ^& push origin main ===
+if "%COMMIT_MSG%"=="" (
+  echo.
+  echo Pesan commit ^(opsional; Enter saja = pes default deploy^).
+  set /p "COMMIT_MSG=Pesan commit: "
+)
+if "%COMMIT_MSG%"=="" set "COMMIT_MSG=chore: trigger GitHub Pages deploy"
 call git commit --allow-empty -m "%COMMIT_MSG%"
 if errorlevel 1 (
   echo [ERROR] git commit --allow-empty failed.

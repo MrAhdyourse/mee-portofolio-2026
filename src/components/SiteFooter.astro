@@ -1,0 +1,28 @@
+---
+import { site } from '../config/site';
+
+const focusRing =
+  'rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950';
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-20 border-t border-slate-200/80 py-10 dark:border-slate-800/80">
+  <div
+    class="mx-auto flex max-w-5xl flex-col gap-4 px-4 text-sm text-slate-600 sm:flex-row sm:items-center sm:justify-between sm:px-6 dark:text-slate-400"
+  >
+    <p>
+      © {year}
+      {site.person.name} — {site.footer.note}
+    </p>
+    <p>
+      <a
+        class={`font-medium text-teal-600 hover:underline dark:text-teal-400 ${focusRing}`}
+        href={site.footer.repoUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {site.footer.repoLabel}
+      </a>
+    </p>
+  </div>
+</footer>

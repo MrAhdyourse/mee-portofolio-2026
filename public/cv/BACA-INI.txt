@@ -1,0 +1,8 @@
+Folder CV (PDF)
+================
+
+1. Ekspor / simpan CV Anda sebagai PDF.
+2. Letakkan di folder ini, misalnya:  CV-NamaAnda.pdf
+3. Buka  src/config/site.ts  → sesuaikan nilai  cv.file  dengan nama file persis (contoh: cv/CV-NamaAnda.pdf).
+
+Tombol "Unduh CV" di situs akan mengarah ke file tersebut.

@@ -1,270 +1,115 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import ProjectCard from '../components/ProjectCard.astro';
-import { allProjectTags, projects } from '../data/projects';
-
-const pageTitle = 'Portofolio | MrAhdyourse';
-const pageDescription =
-  'Kumpulan proyek dan profil singkat — fokus pada web yang ringan, jelas, dan mudah dirawat (Astro, TypeScript, Tailwind).';
+import { site } from '../config/site';
+import { homeContent, homeMeta } from '../config/pages/home';
+import { assetUrl, pageUrl } from '../lib/urls';
 
 const ring =
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950';
+
+const profileSrc = assetUrl(site.profile.image);
+const cvHref = assetUrl(site.cv.file);
 ---
 
-<Layout title={pageTitle} description={pageDescription}>
+<Layout title={homeMeta.title} description={homeMeta.description} socialImage={homeMeta.socialImage} active="home">
   <main id="main">
     <section
-      class="relative mx-auto max-w-5xl overflow-hidden px-4 pb-16 pt-14 sm:px-6 sm:pb-24 sm:pt-20"
+      class="relative mx-auto max-w-5xl overflow-hidden px-4 pb-16 pt-12 sm:px-6 sm:pb-24 sm:pt-16"
       aria-labelledby="hero-heading"
     >
-      <div
-        class="pointer-events-none absolute -right-24 top-0 h-72 w-72 rounded-full bg-teal-400/20 blur-3xl dark:bg-teal-500/15"
-        aria-hidden="true"
-      >
-      </div>
-      <div
-        class="pointer-events-none absolute -left-20 bottom-0 h-64 w-64 rounded-full bg-amber-300/15 blur-3xl dark:bg-amber-500/10"
-        aria-hidden="true"
-      >
-      </div>
-      <p
-        class="text-sm font-medium uppercase tracking-widest text-teal-700 dark:text-teal-400"
-      >
-        Portofolio 2026
-      </p>
-      <h1
-        id="hero-heading"
-        class="mt-4 max-w-3xl text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl dark:text-slate-50"
-      >
-        Halo — saya fokus membangun web yang <span class="text-teal-600 dark:text-teal-400"
-          >ringan, jelas, dan bisa dirawat.</span
-        >
-      </h1>
-      <p
-        class="mt-6 max-w-2xl text-lg leading-relaxed text-slate-600 dark:text-slate-400"
-      >
-        Portofolio ini statis penuh: cepat, responsif, punya mode terang/gelap, dan siap
-        tayang di GitHub Pages. Sesuaikan narasi di halaman ini dan daftar proyek di
-        <code
-          class="rounded bg-slate-200/80 px-1.5 py-0.5 text-sm dark:bg-slate-800/80"
-          >src/data/projects.ts</code
-        >.
-      </p>
-      <div class="mt-10 flex flex-wrap gap-3">
-        <a
-          href="#proyek"
-          class={`inline-flex items-center justify-center rounded-xl bg-teal-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-teal-600/25 transition hover:bg-teal-700 dark:bg-teal-500 dark:text-slate-950 dark:hover:bg-teal-400 ${ring}`}
-        >
-          Lihat proyek
-        </a>
-        <a
-          href="#kontak"
-          class={`inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white/80 px-5 py-3 text-sm font-semibold text-slate-800 transition hover:border-slate-400 hover:bg-white dark:border-slate-600 dark:bg-slate-900/80 dark:text-slate-100 dark:hover:border-slate-500 ${ring}`}
-        >
-          Hubungi saya
-        </a>
-      </div>
-    </section>
-
-    <section
-      id="tentang"
-      class="mx-auto max-w-5xl scroll-mt-24 px-4 py-16 sm:px-6 sm:py-20"
-      aria-labelledby="tentang-heading"
-    >
-      <h2
-        id="tentang-heading"
-        class="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50"
-      >
-        Tentang
-      </h2>
-      <div
-        class="mt-6 grid gap-8 sm:grid-cols-2 sm:gap-10"
-      >
-        <p class="text-slate-600 leading-relaxed dark:text-slate-400">
-          Saya suka merangkai antarmuka yang enak dipakai dan kode yang bisa dijelaskan ke
-          orang lain. Ganti paragraf ini dengan latar belajar atau kerja, stack utama, serta
-          hal yang ingin Anda tonjolkan ke rekruter atau klien.
-        </p>
-        <ul
-          class="space-y-3 rounded-2xl border border-slate-200/90 bg-white/60 p-6 text-sm dark:border-slate-700/90 dark:bg-slate-900/40"
-        >
-          <li class="flex gap-3">
-            <span class="text-teal-600 dark:text-teal-400" aria-hidden="true">✓</span>
-            <span><strong class="text-slate-900 dark:text-slate-100">Fokus</strong> — Kualitas UX kecil yang terasa: navigasi, performa, aksesibilitas.</span>
-          </li>
-          <li class="flex gap-3">
-            <span class="text-teal-600 dark:text-teal-400" aria-hidden="true">✓</span>
-            <span><strong class="text-slate-900 dark:text-slate-100">Toolkit</strong> — Astro, TypeScript, Tailwind, Git serta otomasi deploy.</span>
-          </li>
-          <li class="flex gap-3">
-            <span class="text-teal-600 dark:text-teal-400" aria-hidden="true">✓</span>
-            <span><strong class="text-slate-900 dark:text-slate-100">Bahasa</strong> — Sesuaikan copy (ID/EN) sesuai target pembaca Anda.</span>
-          </li>
-        </ul>
-      </div>
-    </section>
-
-    <section
-      id="proyek"
-      class="mx-auto max-w-5xl scroll-mt-24 px-4 py-16 sm:px-6 sm:py-20"
-      aria-labelledby="proyek-heading"
-    >
-      <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <h2
-            id="proyek-heading"
-            class="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50"
+      <div class="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
+        <div class="relative z-10">
+          <p
+            class="text-xs font-semibold uppercase tracking-[0.2em] text-teal-700 dark:text-teal-400"
           >
-            Proyek
-          </h2>
-          <p class="mt-2 max-w-xl text-slate-600 dark:text-slate-400">
-            Filter cepat menurut tag. Data proyek ada di satu file agar mudah diperbarui.
+            {homeContent.hero.eyebrow}
+          </p>
+          <h1
+            id="hero-heading"
+            class="font-display mt-5 text-4xl font-normal leading-[1.12] tracking-tight text-slate-900 sm:text-5xl lg:text-[3.15rem] dark:text-slate-50"
+          >
+            {homeContent.hero.headlineBefore}
+            <span class="text-teal-600 dark:text-teal-400">{homeContent.hero.headlineAccent}</span>{
+              homeContent.hero.headlineAfter
+            }
+          </h1>
+          <p
+            class="mt-6 max-w-xl text-lg leading-relaxed text-slate-600 dark:text-slate-400"
+          >
+            {homeContent.hero.lead}
+          </p>
+          <div class="mt-10 flex flex-wrap items-center gap-3">
+            <a
+              href={pageUrl(homeContent.hero.primaryCta.segment)}
+              class={`inline-flex items-center justify-center rounded-xl bg-teal-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-teal-600/25 transition hover:bg-teal-700 dark:bg-teal-500 dark:text-slate-950 dark:hover:bg-teal-400 ${ring}`}
+            >
+              {homeContent.hero.primaryCta.label}
+            </a>
+            <a
+              href={pageUrl(homeContent.hero.secondaryCta.segment)}
+              class={`inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white/80 px-5 py-3 text-sm font-semibold text-slate-800 transition hover:border-slate-400 hover:bg-white dark:border-slate-600 dark:bg-slate-900/80 dark:text-slate-100 dark:hover:border-slate-500 ${ring}`}
+            >
+              {homeContent.hero.secondaryCta.label}
+            </a>
+            <a
+              href={cvHref}
+              download
+              class={`inline-flex items-center justify-center gap-2 rounded-xl border border-dashed border-teal-500/50 bg-teal-500/5 px-5 py-3 text-sm font-semibold text-teal-800 transition hover:border-teal-500 hover:bg-teal-500/10 dark:border-teal-400/40 dark:bg-teal-400/5 dark:text-teal-200 dark:hover:bg-teal-400/10 ${ring}`}
+            >
+              <span aria-hidden="true">⬇</span>
+              {site.cv.label}
+            </a>
+          </div>
+          <p class="mt-4 max-w-md text-xs text-slate-500 dark:text-slate-500">
+            Letakkan PDF CV di <code class="rounded bg-slate-200/80 px-1 py-0.5 dark:bg-slate-800/80">public/cv/</code>
+            dan sesuaikan path di <code class="rounded bg-slate-200/80 px-1 py-0.5 dark:bg-slate-800/80">src/config/site.ts</code> (lihat
+            <code class="rounded bg-slate-200/80 px-1 py-0.5 dark:bg-slate-800/80">public/cv/BACA-INI.txt</code>).
           </p>
         </div>
+        <div class="relative mx-auto w-full max-w-sm lg:mx-0 lg:max-w-none">
+          <div
+            class="absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-teal-400/30 via-transparent to-amber-300/20 blur-2xl dark:from-teal-500/20 dark:to-amber-500/10"
+            aria-hidden="true"
+          >
+          </div>
+          <figure
+            class="card-surface relative overflow-hidden rounded-3xl p-2 shadow-xl shadow-slate-900/10 dark:shadow-black/40"
+          >
+            <img
+              src={profileSrc}
+              width={480}
+              height={480}
+              alt={site.profile.imageAlt}
+              class="aspect-square w-full rounded-2xl object-cover"
+              loading="eager"
+            />
+            <figcaption class="sr-only">{site.profile.imageAlt}</figcaption>
+          </figure>
+        </div>
       </div>
-      <div
-        class="mt-8 flex flex-wrap gap-2"
-        role="toolbar"
-        aria-label="Filter proyek berdasarkan tag"
-      >
-        <button
-          type="button"
-          data-filter="all"
-          class={`filter-btn rounded-full border border-teal-600 bg-teal-600 px-4 py-2 text-sm font-medium text-white dark:border-teal-500 dark:bg-teal-500 dark:text-slate-950 ${ring}`}
-          aria-controls="project-grid"
-        >
-          Semua
-        </button>
-        {
-          allProjectTags.map((tag) => (
-            <button
-              type="button"
-              data-filter={tag.toLowerCase().replace(/\s+/g, '-')}
-              class={`filter-btn rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:border-teal-500/50 hover:text-teal-800 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-teal-500/40 dark:hover:text-teal-300 ${ring}`}
-              aria-controls="project-grid"
-            >
-              {tag}
-            </button>
-          ))
-        }
-      </div>
-      <p id="filter-status" class="sr-only" aria-live="polite" />
-      <div
-        class="mt-10 grid gap-6 sm:grid-cols-2"
-        id="project-grid"
-        role="list"
-      >
-        {projects.map((project) => <ProjectCard project={project} />)}
-      </div>
-      <p
-        class="mt-6 text-sm text-slate-500 dark:text-slate-500"
-        id="project-empty"
-        role="status"
-        aria-live="polite"
-        hidden
-      >
-        Tidak ada proyek dengan tag ini.
-      </p>
     </section>
 
     <section
-      id="kontak"
-      class="mx-auto max-w-5xl scroll-mt-24 px-4 py-16 sm:px-6 sm:pb-24 sm:pt-20"
-      aria-labelledby="kontak-heading"
+      class="mx-auto max-w-5xl px-4 pb-20 sm:px-6 sm:pb-28"
+      aria-labelledby="pillars-heading"
     >
-      <h2
-        id="kontak-heading"
-        class="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50"
-      >
-        Kontak
-      </h2>
-      <p class="mt-3 max-w-xl text-slate-600 dark:text-slate-400">
-        Tambahkan tautan email atau profil lain — ganti alamat <code class="rounded bg-slate-200/80 px-1 dark:bg-slate-800/80">mailto:</code> sesuai akun Anda, lalu lengkapi dengan LinkedIn atau portfolio desain bila ada.
-      </p>
-      <div class="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap">
-        <a
-          href="mailto:ganti@email.com"
-          class={`inline-flex items-center justify-center rounded-xl bg-teal-600 px-5 py-3 text-sm font-semibold text-white hover:bg-teal-700 dark:bg-teal-500 dark:text-slate-950 dark:hover:bg-teal-400 ${ring}`}
-        >
-          Email
-        </a>
-        <a
-          href="https://github.com/MrAhdyourse"
-          class={`inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-800 hover:border-slate-400 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 ${ring}`}
-          target="_blank"
-          rel="noopener noreferrer me"
-        >
-          GitHub
-        </a>
-      </div>
+      <h2 id="pillars-heading" class="sr-only">Ringkasan fokus</h2>
+      <ul class="grid gap-5 sm:grid-cols-3" role="list">
+        {
+          homeContent.pillars.map((p) => (
+            <li class="card-surface group p-6 transition hover:-translate-y-0.5 hover:border-teal-500/35">
+              <span
+                class="text-2xl text-teal-600 opacity-90 dark:text-teal-400"
+                aria-hidden="true"
+              >
+                {p.icon}
+              </span>
+              <h3 class="mt-3 font-semibold text-slate-900 dark:text-slate-50">{p.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{p.body}</p>
+            </li>
+          ))
+        }
+      </ul>
     </section>
   </main>
-
-  <script>
-    const activeBtn = [
-      'border-teal-600',
-      'bg-teal-600',
-      'text-white',
-      'shadow-sm',
-      'shadow-teal-600/20',
-      'dark:border-teal-500',
-      'dark:bg-teal-500',
-      'dark:text-slate-950',
-    ];
-    const idleBtn = [
-      'border-slate-300',
-      'bg-white',
-      'text-slate-700',
-      'hover:border-teal-500/50',
-      'hover:text-teal-800',
-      'dark:border-slate-600',
-      'dark:bg-slate-900',
-      'dark:text-slate-200',
-      'dark:hover:border-teal-500/40',
-      'dark:hover:text-teal-300',
-    ];
-
-    const buttons = document.querySelectorAll('.filter-btn');
-    const cards = document.querySelectorAll('.project-card');
-    const emptyMsg = document.getElementById('project-empty');
-    const filterStatus = document.getElementById('filter-status');
-
-    function paintButtons(chosen: HTMLButtonElement) {
-      buttons.forEach((b) => {
-        const on = b === chosen;
-        activeBtn.forEach((c) => b.classList.toggle(c, on));
-        idleBtn.forEach((c) => b.classList.toggle(c, !on));
-      });
-    }
-
-    function applyFilter(slug: string | undefined) {
-      let visible = 0;
-      const all = slug === 'all' || !slug;
-      cards.forEach((card) => {
-        const tags = card.dataset.tags ?? '';
-        const show =
-          all || tags.split(/\s+/).some((t) => t === slug);
-        card.classList.toggle('hidden', !show);
-        if (show) visible += 1;
-      });
-      if (emptyMsg) emptyMsg.hidden = visible !== 0;
-      if (filterStatus) {
-        if (visible === 0) filterStatus.textContent = '';
-        else if (all) filterStatus.textContent = `Menampilkan ${visible} proyek.`;
-        else filterStatus.textContent = `Filter aktif. Menampilkan ${visible} proyek.`;
-      }
-    }
-
-    buttons.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        paintButtons(btn as HTMLButtonElement);
-        applyFilter((btn as HTMLButtonElement).dataset.filter);
-      });
-    });
-
-    const defaultBtn =
-      document.querySelector<HTMLButtonElement>('[data-filter="all"]') ?? null;
-    if (defaultBtn) paintButtons(defaultBtn);
-    applyFilter('all');
-  </script>
 </Layout>
