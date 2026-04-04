@@ -1,11 +1,38 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
+import GitHubRepoCard from '../components/GitHubRepoCard.astro';
 import { projectsPageContent, projectsMeta } from '../config/pages/projects';
-import { allProjectTags, projects } from '../data/projects';
+import { projects } from '../data/projects';
 
 const ring =
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950';
+
+// Fetch GitHub repos
+const GITHUB_USERNAME = 'MrAhdyourse';
+let githubRepos = [];
+
+try {
+  const response = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=12`);
+  if (response.ok) {
+    const repos = await response.json();
+    githubRepos = repos
+      .filter((repo: any) => !repo.fork && !repo.private)
+      .map((repo: any) => ({
+        name: repo.name,
+        description: repo.description || 'No description available',
+        url: repo.html_url,
+        homepage: repo.homepage,
+        stars: repo.stargazers_count,
+        forks: repo.forks_count,
+        language: repo.language,
+        topics: repo.topics || [],
+        updated: repo.updated_at,
+      }));
+  }
+} catch (error) {
+  console.error('Failed to fetch GitHub repos:', error);
+}
 ---
 
 <Layout
@@ -14,7 +41,7 @@ const ring =
   socialImage={projectsMeta.socialImage}
   active="projects"
 >
-  <main id="main" class="mx-auto max-w-5xl px-4 py-14 sm:px-6 sm:py-20">
+  <main id="main" class="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-20">
     <header class="max-w-2xl">
       <p class="text-xs font-semibold uppercase tracking-[0.2em] text-teal-700 dark:text-teal-400">
         {projectsPageContent.section.eyebrow}
@@ -27,118 +54,60 @@ const ring =
       </p>
     </header>
 
-    <div
-      class="mt-10 flex flex-wrap gap-2"
-      role="toolbar"
-      aria-label="Filter proyek berdasarkan tag"
-    >
-      <button
-        type="button"
-        data-filter="all"
-        class={`filter-btn rounded-full border border-teal-600 bg-teal-600 px-4 py-2 text-sm font-medium text-white dark:border-teal-500 dark:bg-teal-500 dark:text-slate-950 ${ring}`}
-        aria-controls="project-grid"
-      >
-        Semua
-      </button>
-      {
-        allProjectTags.map((tag) => (
-          <button
-            type="button"
-            data-filter={tag.toLowerCase().replace(/\s+/g, '-')}
-            class={`filter-btn rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:border-teal-500/50 hover:text-teal-800 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-teal-500/40 dark:hover:text-teal-300 ${ring}`}
-            aria-controls="project-grid"
+    <!-- Featured Projects -->
+    <section class="mt-12">
+      <h2 class="mb-6 text-xl font-semibold text-slate-900 dark:text-slate-50">
+        ⭐ Featured Projects
+      </h2>
+      <div class="grid gap-6 sm:grid-cols-2" role="list">
+        {projects.map((project) => <ProjectCard project={project} />)}
+      </div>
+    </section>
+
+    <!-- GitHub Repositories -->
+    {githubRepos.length > 0 && (
+      <section class="mt-16">
+        <div class="mb-6 flex items-center justify-between">
+          <h2 class="text-xl font-semibold text-slate-900 dark:text-slate-50">
+            🚀 GitHub Repositories
+          </h2>
+          <a
+            href={`https://github.com/${GITHUB_USERNAME}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-sm font-medium text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300"
           >
-            {tag}
-          </button>
-        ))
-      }
-    </div>
-    <p id="filter-status" class="sr-only" aria-live="polite" />
-    <div
-      class="mt-10 grid gap-6 sm:grid-cols-2"
-      id="project-grid"
-      role="list"
-    >
-      {projects.map((project) => <ProjectCard project={project} />)}
-    </div>
-    <p
-      class="mt-6 text-sm text-slate-500 dark:text-slate-500"
-      id="project-empty"
-      role="status"
-      aria-live="polite"
-      hidden
-    >
-      {projectsPageContent.emptyFilterMessage}
-    </p>
+            View All on GitHub →
+          </a>
+        </div>
+        
+        <!-- Bento Grid Layout -->
+        <div class="bento-grid">
+          {githubRepos.map((repo: any, i: number) => (
+            <GitHubRepoCard repo={repo} index={i} />
+          ))}
+        </div>
+      </section>
+    )}
   </main>
-
-  <script define:vars={{ emptyMsg: projectsPageContent.emptyFilterMessage }}>
-    const activeBtn = [
-      'border-teal-600',
-      'bg-teal-600',
-      'text-white',
-      'shadow-sm',
-      'shadow-teal-600/20',
-      'dark:border-teal-500',
-      'dark:bg-teal-500',
-      'dark:text-slate-950',
-    ];
-    const idleBtn = [
-      'border-slate-300',
-      'bg-white',
-      'text-slate-700',
-      'hover:border-teal-500/50',
-      'hover:text-teal-800',
-      'dark:border-slate-600',
-      'dark:bg-slate-900',
-      'dark:text-slate-200',
-      'dark:hover:border-teal-500/40',
-      'dark:hover:text-teal-300',
-    ];
-
-    const buttons = document.querySelectorAll('.filter-btn');
-    const cards = document.querySelectorAll('.project-card');
-    const emptyEl = document.getElementById('project-empty');
-    const filterStatus = document.getElementById('filter-status');
-
-    function paintButtons(chosen: HTMLButtonElement) {
-      buttons.forEach((b) => {
-        const on = b === chosen;
-        activeBtn.forEach((c) => b.classList.toggle(c, on));
-        idleBtn.forEach((c) => b.classList.toggle(c, !on));
-      });
-    }
-
-    function applyFilter(slug: string | undefined) {
-      let visible = 0;
-      const all = slug === 'all' || !slug;
-      cards.forEach((card) => {
-        const tags = (card as HTMLElement).dataset.tags ?? '';
-        const show = all || tags.split(/\s+/).some((t) => t === slug);
-        card.classList.toggle('hidden', !show);
-        if (show) visible += 1;
-      });
-      if (emptyEl) {
-        emptyEl.textContent = emptyMsg;
-        emptyEl.hidden = visible !== 0;
-      }
-      if (filterStatus) {
-        if (visible === 0) filterStatus.textContent = '';
-        else if (all) filterStatus.textContent = `Menampilkan ${visible} proyek.`;
-        else filterStatus.textContent = `Filter aktif. Menampilkan ${visible} proyek.`;
-      }
-    }
-
-    buttons.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        paintButtons(btn as HTMLButtonElement);
-        applyFilter((btn as HTMLButtonElement).dataset.filter);
-      });
-    });
-
-    const defaultBtn =
-      document.querySelector<HTMLButtonElement>('[data-filter="all"]') ?? null;
-    if (defaultBtn) paintButtons(defaultBtn);
-    applyFilter('all');
-  </script>
 </Layout>
+
+<style>
+  .bento-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+    grid-auto-flow: dense;
+  }
+
+  @media (min-width: 640px) {
+    .bento-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    
+    /* Make some cards span 2 columns for visual interest */
+    .bento-grid > :nth-child(4n + 1) {
+      grid-column: span 2;
+    }
+  }
+</style>

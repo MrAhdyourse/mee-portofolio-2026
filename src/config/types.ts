@@ -13,7 +13,6 @@ export type SiteConfig = {
   person: { name: string; jsonLdSameAs: string[] };
   nav: NavItem[];
   profile: { image: string; imageAlt: string };
-  /** File di folder `public/` (contoh: cv/CV-Anda.pdf). */
   cv: { file: string; label: string };
   footer: {
     note: string;

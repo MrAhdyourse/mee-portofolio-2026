@@ -6,27 +6,33 @@ export type Project = {
   repo?: string;
 };
 
-/** Ganti dengan proyek Anda; daftar ini dipakai section Proyek + filter tag. */
 export const projects: Project[] = [
   {
-    title: 'mee-portofolio-2026',
+    title: 'Portofolio web ini',
     description:
-      'Situs portofolio statis dengan Astro & Tailwind; deploy otomatis ke GitHub Pages.',
-    tags: ['Astro', 'Tailwind', 'GitHub Pages'],
+      'Situs portofolio statis dengan Astro & Tailwind: multi-halaman, mode terang/gelap, pratinjau CV, unduhan PDF, dan deploy otomatis ke GitHub Pages.',
+    tags: ['Astro', 'Tailwind', 'TypeScript', 'GitHub Pages'],
     repo: 'https://github.com/MrAhdyourse/mee-portofolio-2026',
   },
   {
-    title: 'Contoh: API layanan',
+    title: 'Sistem Manajemen Sekolah',
     description:
-      'Ganti dengan studi kasus singkat: masalah yang diselesaikan, pola integrasi, dan bagaimana Anda menjaga keamanan atau performa.',
-    tags: ['Backend', 'API'],
+      'Platform manajemen sekolah terintegrasi untuk administrasi akademik, data siswa, dan pelaporan. Dibangun dengan fokus pada efisiensi dan kemudahan penggunaan.',
+    tags: ['PHP', 'MySQL', 'Bootstrap', 'Administrasi'],
     href: '#',
   },
   {
-    title: 'Contoh: Dashboard internal',
+    title: 'Digitalisasi & basis data',
     description:
-      'Ganti dengan cerita desain sistem, komponen UI, aksesibilitas, atau bagaimana data ditampilkan untuk pengguna akhir.',
-    tags: ['Frontend', 'UI'],
+      'Pengalaman mengintegrasikan data administrasi dan akademik ke sistem digital, menjaga akurasi entri dan akses yang terkontrol untuk tim.',
+    tags: ['Administrasi', 'Basis data', 'IT Support'],
+    href: '#',
+  },
+  {
+    title: 'Infrastruktur & E-learning',
+    description:
+      'Pendukung pengembangan platform pembelajaran online dan perawatan infrastruktur jaringan serta perangkat di lingkungan pendidikan.',
+    tags: ['Jaringan', 'E-learning', 'Hardware'],
     href: '#',
   },
 ];

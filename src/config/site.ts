@@ -1,20 +1,17 @@
 import type { SiteConfig } from './types';
 
 /**
- * Konten global: navigasi, brand, foto profil, CV, footer.
- * Tiap halaman punya file sendiri di `src/config/pages/`.
+ * Konten global: navigasi, brand, pratinjau CV (gambar), unduhan PDF, footer.
+ * Narasi per halaman: `src/config/pages/`.
  */
 export const site: SiteConfig = {
   brand: {
-    name: 'Nama Anda',
-    shortTagline: 'Portofolio',
+    name: 'Ahdi Aghni',
+    shortTagline: 'IT Administrator',
   },
   person: {
-    name: 'Nama Anda',
-    jsonLdSameAs: [
-      'https://github.com/MrAhdyourse',
-      // Tambahkan LinkedIn, Behance, dll.
-    ],
+    name: 'Ahdi Aghni',
+    jsonLdSameAs: ['https://github.com/MrAhdyourse'],
   },
   nav: [
     { id: 'home', label: 'Beranda', segment: '' },
@@ -23,16 +20,17 @@ export const site: SiteConfig = {
     { id: 'contact', label: 'Kontak', segment: 'kontak' },
   ],
   profile: {
-    image: 'images/profile-placeholder.svg',
-    imageAlt: 'Foto profil — ganti dengan foto Anda di public/images/',
+    /** Pratinjau visual CV (PNG penuh) — ditampilkan dengan object-contain di beranda. */
+    image: 'images/CV-IMAGE.jpg',
+    imageAlt:
+      'Pratinjau CV Ahdi Aghni — IT Administrator, pengalaman di sistem digital, jaringan, dan administrasi.',
   },
   cv: {
-    /** Taruh PDF asli di `public/cv/` dan samakan nama file di sini. */
-    file: 'cv/CV-NamaAnda.pdf',
+    file: 'cv/CV-AHDI.pdf',
     label: 'Unduh CV',
   },
   footer: {
-    note: 'Dibangun dengan Astro, TypeScript & Tailwind — deploy GitHub Pages.',
+    note: 'Portofolio web — Astro, TypeScript & Tailwind · deploy GitHub Pages.',
     repoUrl: 'https://github.com/MrAhdyourse/mee-portofolio-2026',
     repoLabel: 'Sumber di GitHub',
   },

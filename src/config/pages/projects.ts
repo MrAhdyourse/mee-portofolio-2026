@@ -1,18 +1,18 @@
 import type { PageMeta } from '../types';
 
 export const projectsMeta: PageMeta = {
-  title: 'Proyek | Portofolio',
+  title: 'Proyek | Ahdi Aghni',
   description:
-    'Studi kasus, aplikasi, dan eksperimen — filter menurut tag. Data tiap kartu ada di src/data/projects.ts.',
+    'Ringkasan kontribusi di bidang IT, digitalisasi administrasi, dan infrastruktur — filter menurut tag.',
   socialImage: 'og-banner.svg',
 };
 
 export const projectsPageContent = {
   section: {
-    eyebrow: 'Karya terpilih',
-    title: 'Proyek',
+    eyebrow: 'Ringkasan kontribusi',
+    title: 'Proyek & fokus kerja',
     lead:
-      'Susun narasi per proyek di `src/data/projects.ts` (judul, deskripsi, tag, tautan). Filter di bawah otomatis mengikuti tag yang Anda pakai.',
+      'Kartu berikut merangkum arah kerja dan proyek yang relevan dengan pengalaman IT & administrasi. Detail tiap entri dapat diedit di src/data/projects.ts.',
   },
   emptyFilterMessage: 'Tidak ada proyek dengan tag ini.',
 } as const;

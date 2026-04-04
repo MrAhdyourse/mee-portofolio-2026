@@ -1,40 +1,39 @@
 import type { PageMeta } from '../types';
 
-/** SEO + Open Graph khusus halaman beranda. */
 export const homeMeta: PageMeta = {
-  title: 'Beranda | Portofolio',
+  title: 'Beranda | Ahdi Aghni — IT Administrator',
   description:
-    'Perkenalan singkat, fokus kerja, dan ajakan untuk melihat proyek — portofolio web statis yang cepat dan responsif.',
+    'Ahdi Aghni — IT Administrator di Cirebon-Indramayu. Spesialis administrasi digital, basis data, jaringan, dan dukungan teknis. Lihat pratinjau CV dan proyek.',
   socialImage: 'og-banner.svg',
 };
 
 export const homeContent = {
   hero: {
-    eyebrow: 'Portofolio · Siap Anda isi',
+    eyebrow: 'IT Administrator · Cirebon-Indramayu, Jawa Barat',
     headlineBefore: 'Halo — saya ',
-    headlineAccent: 'Nama Anda',
-    headlineAfter: ', dan ini ruang untuk narasi profesional Anda.',
+    headlineAccent: 'Ahdi Aghni',
+    headlineAfter: ', tenaga IT & administrasi yang fokus pada sistem digital, data, dan operasional yang rapi.',
     lead:
-      'Ganti teks ini dengan satu paragraf kuat: peran, niche, atau masalah yang Anda selesaikan. Calon klien/rekruter biasanya baca ini dalam hitungan detik.',
-    /** Tombol utama menuju halaman proyek (path relatif dari situs). */
+      'Lebih dari 2,5 tahun berpengalaman mendukung infrastruktur IT, digitalisasi administrasi, dan layanan teknis. Terbiasa dengan basis data, jaringan, Microsoft Office, serta dokumentasi dan pelaporan yang akurat.',
     primaryCta: { label: 'Lihat proyek', segment: 'proyek' as const },
-    secondaryCta: { label: 'Tentang saya', segment: 'tentang' as const },
+    secondaryCta: { label: 'Tentang & pengalaman', segment: 'tentang' as const },
   },
-  /** Tiga kartu ringkas di bawah hero — ganti judul & isi. */
+  /** Pratinjau CV di samping hero — teks bantuan singkat (opsional). */
+  cvPreviewCaption: 'Pratinjau CV',
   pillars: [
     {
-      title: 'Fokus',
-      body: 'Satu kalimat tentang spesialisasi Anda (mis. frontend, full-stack, UX).',
+      title: 'Administrasi digital',
+      body: 'Digitalisasi arsip, basis data, dan alur kerja perkantoran agar data rapi dan mudah diaudit.',
       icon: '◆',
     },
     {
-      title: 'Cara kerja',
-      body: 'Singkat: komunikasi, iterasi, dokumentasi, atau praktik tim yang Anda jaga.',
+      title: 'IT & jaringan',
+      body: 'Dukungan teknis, troubleshooting, serta perawatan infrastruktur hardware, software, dan jaringan.',
       icon: '◇',
     },
     {
-      title: 'Stack & tools',
-      body: 'Contoh: Astro, TypeScript, Tailwind, Git, CI — sesuaikan dengan skill nyata.',
+      title: 'Kolaborasi',
+      body: 'Komunikasi jelas dengan tim dan pengguna akhir; orientasi pada solusi dan kepuasan layanan.',
       icon: '○',
     },
   ],

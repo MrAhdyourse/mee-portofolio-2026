@@ -67,5 +67,62 @@ import { aboutContent, aboutMeta } from '../config/pages/about';
         </div>
       </aside>
     </div>
+
+    <section class="mt-16 border-t border-slate-200/80 pt-16 dark:border-slate-800/80" aria-labelledby="exp-heading">
+      <h2
+        id="exp-heading"
+        class="font-display text-2xl font-normal tracking-tight text-slate-900 dark:text-slate-50"
+      >
+        {aboutContent.experience.title}
+      </h2>
+      <div class="mt-10 relative">
+        <!-- Timeline line -->
+        <div class="timeline-line"></div>
+        
+        <ol class="space-y-12 relative" role="list">
+          {
+            aboutContent.experience.items.map((job, i) => (
+              <li class="timeline-item" style={`animation-delay: ${i * 0.15}s`}>
+                <div class="timeline-dot"></div>
+                <div class="timeline-card">
+                  <div class="flex flex-col gap-1 sm:flex-row sm:flex-wrap sm:items-baseline sm:justify-between sm:gap-4">
+                    <div>
+                      <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-50">{job.role}</h3>
+                      <p class="text-sm font-medium text-teal-700 dark:text-teal-400">{job.org}</p>
+                    </div>
+                    <p class="timeline-period">{job.period}</p>
+                  </div>
+                  <ul class="mt-4 list-disc space-y-2 pl-5 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                    {job.points.map((pt) => (
+                      <li>{pt}</li>
+                    ))}
+                  </ul>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </section>
   </main>
 </Layout>
+
+<script>
+  // Scroll reveal for timeline
+  const observerOptions = {
+    threshold: 0.2,
+    rootMargin: '0px 0px -50px 0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('timeline-visible');
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('.timeline-item').forEach(el => {
+    observer.observe(el);
+  });
+</script>

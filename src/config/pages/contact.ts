@@ -1,9 +1,9 @@
 import type { PageMeta } from '../types';
 
 export const contactMeta: PageMeta = {
-  title: 'Kontak | Portofolio',
+  title: 'Kontak | Ahdi Aghni',
   description:
-    'Saluran untuk kolaborasi, freelance, atau diskusi santai — ganti tautan dengan akun asli Anda.',
+    'Hubungi Ahdi Aghni melalui email, WhatsApp, atau GitHub untuk diskusi kerja sama atau dukungan IT.',
   socialImage: 'og-banner.svg',
 };
 
@@ -20,24 +20,28 @@ export const contactContent = {
   section: {
     title: 'Mari berbicara',
     lead:
-      'Ceritakan singkat kebutuhan atau ide — ganti email dan URL di bawah agar mengarah ke Anda. Tombol menyalin email bisa ditambahkan nanti jika perlu.',
+      'Untuk peluang kerja, proyek IT & administrasi, atau pertanyaan teknis — silakan hubungi melalui saluran di bawah. Saya berdomisili di Cirebon-Indramayu, Jawa Barat.',
   },
-  /** Ganti href menjadi milik Anda; urutan = tampilan di halaman. */
   links: [
     {
       label: 'Email',
-      href: 'mailto:ganti@email.com',
+      href: 'mailto:ahdi.aghnii@gmail.com',
       variant: 'primary',
     },
     {
-      label: 'GitHub',
-      href: 'https://github.com/MrAhdyourse',
+      label: 'WhatsApp',
+      href: 'https://wa.me/6283867055809',
       variant: 'secondary',
       external: true,
     },
     {
-      label: 'LinkedIn (ganti URL)',
-      href: 'https://www.linkedin.com/in/ganti-profesional/',
+      label: 'Telepon',
+      href: 'tel:+6283867055809',
+      variant: 'secondary',
+    },
+    {
+      label: 'GitHub',
+      href: 'https://github.com/MrAhdyourse',
       variant: 'ghost',
       external: true,
     },
