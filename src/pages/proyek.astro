@@ -8,37 +8,9 @@ import { projects } from '../data/projects';
 const ring =
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950';
 
-// Fetch GitHub repos
+// Fetch GitHub repos - Disabled for now to fix build
 const GITHUB_USERNAME = 'MrAhdyourse';
-let githubRepos = [];
-
-try {
-  const response = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=12`, {
-    headers: {
-      'Accept': 'application/vnd.github.v3+json',
-    }
-  });
-  if (response.ok) {
-    const repos = await response.json();
-    githubRepos = repos
-      .filter((repo: any) => !repo.fork && !repo.private)
-      .map((repo: any) => ({
-        name: repo.name,
-        description: repo.description || 'No description available',
-        url: repo.html_url,
-        homepage: repo.homepage,
-        stars: repo.stargazers_count,
-        forks: repo.forks_count,
-        language: repo.language,
-        topics: repo.topics || [],
-        updated: repo.updated_at,
-      }));
-  } else {
-    console.warn('Failed to fetch GitHub repos:', response.status);
-  }
-} catch (error) {
-  console.warn('Error fetching GitHub repos:', error);
-}
+let githubRepos: any[] = [];
 ---
 
 <Layout
